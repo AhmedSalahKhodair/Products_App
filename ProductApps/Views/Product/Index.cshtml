@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ProductApps.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div id="searchResults">
+    <p>
+        @Html.ActionLink("Create New", "Create")
+
+        @using (Html.BeginForm())
+        {
+        <p>
+            Description: @Html.DropDownList("Description", "All")
+
+            Name: @Html.TextBox("searchText")
+
+            <br /> <br />
+            <input type="submit" value="Filter" />
+        </p>
+        }
+
+        @using (Ajax.BeginForm("_ProductSearch", "Product",
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.InsertAfter,
+                    HttpMethod = "Get",
+                    LoadingElementId = "ajax-loader",
+                    UpdateTargetId = "searchResults"
+                }
+                ))
+
+                {
+                    <input type="text" , name="query" />
+                    <input type="submit" , value="Find Title" />
+                    <img id="ajax-loader" src="~/Content/Images/ajax-loader.gif" style="display:none" />
+                }
+
+        </p>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit Here Test", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+
+        }
+
+
+    </table>
+
+
+    <div id="bargainProduct">
+        @Ajax.ActionLink("Click here for the Bargain Product!", "BargainProduct",
+    new AjaxOptions
+    {
+        UpdateTargetId = "bargainProduct",
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "Get"
+    }
+       )
+
+    </div>

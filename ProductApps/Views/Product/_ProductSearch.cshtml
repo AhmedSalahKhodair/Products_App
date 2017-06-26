@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ProductApps.Models.Product>
+
+<ul>
+    
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.ProductName
+        </li>
+    }
+
+
+</ul>
+
